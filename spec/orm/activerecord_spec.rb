@@ -251,6 +251,14 @@ describe CarrierWave::ActiveRecord do
         @event[:image].should == ''
         @event.image_identifier.should == ''
       end
+      
+      it "should remove the image if remove! is called on the image" do
+        @event.image = stub_file('test.jpeg')
+        @event.save!
+        @event.image.remove!
+        @event.reload
+        @event[:image].should == ''
+      end
 
       it "should mark image as changed when saving a new image" do
         @event.image_changed?.should be_false
